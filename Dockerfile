@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /opt
 
-ADD ./build .
+ADD ./dist .
 
 RUN npm i
 
