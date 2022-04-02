@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { afterDelete, afterPaginate, BaseModel, beforePaginate, column, computed, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { afterDelete, BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { slugify } from '@ioc:Adonis/Addons/LucidSlugify'
 import ProductImage from './ProductImage'
 import ProductType from './ProductType'

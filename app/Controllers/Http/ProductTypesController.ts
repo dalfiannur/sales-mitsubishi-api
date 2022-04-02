@@ -17,6 +17,8 @@ export default class ProductTypesController {
     }
 
     public async update({ request, response, auth }: HttpContextContract) {
+        await auth.use('api').authenticate()
+        
         const data = await ProductType.findBy('id', request.param('id'))
 
         if (!data) {
