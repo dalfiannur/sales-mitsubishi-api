@@ -31,6 +31,7 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/', 'ProductsController.paginate')
+  Route.get('/:slug', 'ProductsController.findBySlug')
   Route.group(() => {
     Route.post('/', 'ProductsController.store').middleware('multipleImageUploader:images')
     Route.delete('/:id', 'ProductsController.delete')

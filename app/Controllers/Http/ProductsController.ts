@@ -12,7 +12,7 @@ export default class ProductsController {
         const { images, types, ...productDTO } = await request.validate(ProductStoreValidator)
 
         const trx = await Database.transaction()
-        
+
         try {
             const product = await Product.create(productDTO, {
                 client: trx
@@ -49,6 +49,20 @@ export default class ProductsController {
             .paginate(1, 20)
     }
 
+    public async findBySlug({ request, response }: HttpContextContract) {
+        const product = await Product.query()
+            .preload('types')
+            .preload('images')
+            .where('slug', request.param('slug'))
+            .first()
+
+        if (!product) {
+            return response.notFound('Product not found')
+        }
+
+        return product
+    }
+
     public async delete({ request, response, auth }: HttpContextContract) {
         await auth.use('api').authenticate()
 
@@ -56,7 +70,7 @@ export default class ProductsController {
         if (!product) {
             return response.notFound('Product not found')
         }
-        
+
         await product.delete()
 
         return response.noContent()
