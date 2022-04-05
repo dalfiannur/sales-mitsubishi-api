@@ -41,5 +41,6 @@ Server.middleware.register([
 |
 */
 Server.middleware.registerNamed({
-  multipleImageUploader: () => import('App/Middleware/MultipleImageUploader')
+  multipleImageUploader: () => import('App/Middleware/MultipleImageUploader'),
+  imageUploader: () => import('App/Middleware/ImageUploader')
 })

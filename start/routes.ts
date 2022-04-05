@@ -42,3 +42,14 @@ Route.group(() => {
     Route.delete('/', 'ProductTypesController.delete')
   }).prefix('/:productId/types/:id')
 }).prefix('products')
+
+Route.group(() => {
+  Route.get('/', 'ArticlesController.paginate')
+  Route.get('/:slug', 'ArticlesController.findBySlug')
+
+  Route.group(() => {
+    Route.post('/', 'ArticlesController.store').middleware('imageUploader:thumbnail')
+    Route.put('/:id', 'ArticlesController.update').middleware('imageUploader:thumbnail')
+    Route.delete('/:id', 'ArticlesController.delete')
+  }).middleware('auth')
+}).prefix('articles')
