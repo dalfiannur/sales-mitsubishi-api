@@ -11,28 +11,28 @@ export default class ImageUploader {
       mkdirSync(uploadDir, { recursive: true })
     }
 
-    const image: string = request.input(paths[0])
 
-    if (image) {
-      const base64 = image.split(';base64,')[1]
-      const buffer = Buffer.from(base64, 'base64')
-      const filename = Date.now() + '.webp'
+    for (let path of paths) {
+      const image: string = request.input(path)
+      if (image) {
+        const base64 = image.split(';base64,')[1]
+        const buffer = Buffer.from(base64, 'base64')
+        const filename = Date.now() + '.webp'
 
-      await sharp(buffer)
-        .webp({
-          quality: 80
+        await sharp(buffer)
+          .webp({
+            quality: 80
+          })
+          .toFile(uploadDir + '/' + filename)
+
+        const imagePath = 'images/' + filename
+
+        request.updateBody({
+          ...request.body(),
+          [path]: imagePath
         })
-        .toFile(uploadDir + '/' + filename)
-
-      const path = 'images/' + filename
-
-      request.updateBody({
-        ...request.body(),
-        [paths[0]]: path
-      })
+      }
     }
-
-
 
     await next()
   }

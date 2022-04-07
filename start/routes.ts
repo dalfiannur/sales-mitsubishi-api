@@ -32,24 +32,56 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/', 'ProductsController.paginate')
   Route.get('/:slug', 'ProductsController.findBySlug')
-  Route.group(() => {
-    Route.post('/', 'ProductsController.store').middleware('multipleImageUploader:images')
-    Route.delete('/:id', 'ProductsController.delete')
-  })
 
   Route.group(() => {
-    Route.put('/', 'ProductTypesController.update')
-    Route.delete('/', 'ProductTypesController.delete')
-  }).prefix('/:productId/types/:id')
+    Route.post('/', 'ProductsController.store').middleware('multipleImageUploader:images')
+    Route.put('/:id', 'ProductsController.update')
+    Route.delete('/:id', 'ProductsController.delete')
+  }).middleware('auth')
+
+
+  Route.group(() => {
+    Route.group(() => {
+      Route.post('/', 'ProductImagesController.store').middleware('multipleImageUploader:images')
+      Route.delete('/:id', 'ProductImagesController.delete')
+    }).prefix('images')
+
+    Route.group(() => {
+      Route.post('/', 'ProductTypesController.store')
+      Route.put('/:id', 'ProductTypesController.update')
+      Route.delete('/:id', 'ProductTypesController.delete')
+    }).prefix('types')
+
+  }).prefix('/:productId').middleware('auth')
 }).prefix('products')
 
 Route.group(() => {
-  Route.get('/', 'ArticlesController.paginate')
-  Route.get('/:slug', 'ArticlesController.findBySlug')
+  Route.get('/', 'NewsController.paginate')
+  Route.get('/:slug', 'NewsController.findBySlug')
 
   Route.group(() => {
-    Route.post('/', 'ArticlesController.store').middleware('imageUploader:thumbnail')
-    Route.put('/:id', 'ArticlesController.update').middleware('imageUploader:thumbnail')
-    Route.delete('/:id', 'ArticlesController.delete')
+    Route.post('/', 'NewsController.store').middleware('imageUploader:thumbnail')
+    Route.put('/:id', 'NewsController.update').middleware('imageUploader:thumbnail')
+    Route.delete('/:id', 'NewsController.delete')
   }).middleware('auth')
-}).prefix('articles')
+}).prefix('news')
+
+
+Route.group(() => {
+  Route.get('/', 'TestimonialsController.paginate')
+
+  Route.group(() => {
+    Route.post('/', 'TestimonialsController.store').middleware('imageUploader:image,avatar')
+    Route.put('/:id', 'TestimonialsController.update').middleware('imageUploader:image,avatar')
+    Route.delete('/:id', 'TestimonialsController.delete')
+  }).middleware('auth')
+}).prefix('testimonials')
+
+Route.group(() =>{
+  Route.get('/', 'BannersController.paginate')
+
+  Route.group(() => {
+    Route.post('/', 'BannersController.store').middleware('imageUploader:image')
+    Route.delete('/:id', 'BannersController.delete')
+  }).middleware('auth')
+}).prefix('banners')
