@@ -49,11 +49,6 @@ export default class News extends BaseModel {
     ImageHelper.delete(news.thumbnail)
   }
 
-  @beforeSave()
-  public static async beforeSaveHook(news: News) {
-    news.content = Escape(news.content)
-  }
-
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
 }
