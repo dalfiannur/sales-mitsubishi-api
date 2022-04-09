@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
-import { afterDelete, BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
+import { afterDelete, BaseModel, beforeSave, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
 import { slugify } from '@ioc:Adonis/Addons/LucidSlugify';
 import ImageHelper from 'App/Helpers/ImageHelper';
 import User from './User';
 import { appUrl, isDevelopment } from 'Config/app';
+import Escape from 'escape-html'
 
 export default class News extends BaseModel {
   @column({ isPrimary: true })
@@ -46,6 +47,11 @@ export default class News extends BaseModel {
   @afterDelete()
   public static async deleteThumbnail(news: News) {
     ImageHelper.delete(news.thumbnail)
+  }
+
+  @beforeSave()
+  public static async beforeSaveHook(news: News) {
+    news.content = Escape(news.content)
   }
 
   @belongsTo(() => User)
