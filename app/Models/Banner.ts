@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm'
-import { appUrl, isDevelopment } from 'Config/app'
+import { AssetHelper } from 'App/Helpers/AssetHelper'
 
 export default class Banner extends BaseModel {
   @column({ isPrimary: true })
@@ -11,10 +11,7 @@ export default class Banner extends BaseModel {
 
   @computed()
   public get source_url() {
-    if (isDevelopment) {
-      return 'http://' + appUrl + '/' + this.source
-    }
-    return 'https://' + appUrl + '/' + this.source
+    return AssetHelper.getUrl(this.source)
   }
 
   @column.dateTime({ autoCreate: true })

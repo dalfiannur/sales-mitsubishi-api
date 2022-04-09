@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
 import { afterDelete, BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
-import { appUrl, isDevelopment } from 'Config/app'
 import Product from './Product'
 import ImageHelper from 'App/Helpers/ImageHelper'
+import { AssetHelper } from 'App/Helpers/AssetHelper'
 
 export default class ProductImage extends BaseModel {
   @column({ isPrimary: true })
@@ -25,10 +25,7 @@ export default class ProductImage extends BaseModel {
 
   @computed()
   public get source_url() {
-    if (isDevelopment) {
-      return 'http://' + appUrl + '/' + this.source
-    }
-    return 'https://' + appUrl + '/' + this.source
+    return AssetHelper.getUrl(this.source)
   }
 
   @afterDelete()
