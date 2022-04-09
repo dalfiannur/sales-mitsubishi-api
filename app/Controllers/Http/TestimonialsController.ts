@@ -28,13 +28,13 @@ export default class TestimonialsController {
   public async paginate({ params, response }: HttpContextContract) {
     const { page = 1, perPage = 5 } = params
 
-    const testimonials = await Testimonial.query()
+    const data = await Testimonial.query()
       .paginate(page, perPage)
 
     return response.ok({
       status: 200,
       message: 'Testimonials paginated successfully',
-      data: testimonials
+      ...data.toJSON()
     })
   }
 
