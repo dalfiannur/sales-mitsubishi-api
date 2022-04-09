@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
-import { afterDelete, BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { afterDelete, BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
 import { slugify } from '@ioc:Adonis/Addons/LucidSlugify';
 import ImageHelper from 'App/Helpers/ImageHelper';
 import User from './User';
+import { appUrl, isDevelopment } from 'Config/app';
 
 export default class News extends BaseModel {
   @column({ isPrimary: true })
@@ -27,6 +28,14 @@ export default class News extends BaseModel {
 
   @column()
   public thumbnail: string;
+
+  @computed()
+  public get thumbnailUrl() {
+    if (isDevelopment) {
+      return 'http://' + appUrl + '/' + this.thumbnail
+    }
+    return 'https://' + appUrl + '/' + this.thumbnail
+  }
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
