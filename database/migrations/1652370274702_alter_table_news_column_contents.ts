@@ -5,7 +5,7 @@ export default class AlterTableNewsColumnContents extends BaseSchema {
 
   public async up () {
     this.schema.alterTable(this.tableName, (table) => {
-      table.text('content');
+      table.text('content').alter();
     })
   }
 
