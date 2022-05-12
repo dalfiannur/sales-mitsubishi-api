@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class AlterTableNewsColumnContents extends BaseSchema {
-  protected tableName = 'alter_table_news_column_contents'
+  protected tableName = 'news'
 
   public async up () {
     this.schema.alterTable(this.tableName, (table) => {
