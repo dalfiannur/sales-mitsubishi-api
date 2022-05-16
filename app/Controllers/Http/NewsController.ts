@@ -64,12 +64,19 @@ export default class NewsController {
   }
 
   public async paginate({ request, response }: HttpContextContract) {
-    const { page = 1, perPage = 10 } = request.qs()
+    const { page = 1, perPage = 10, orderBy = 'created_at', orderSort = 'desc' } = request.qs()
 
-    const news = await News.query()
+    const query = News.query()
       .preload('user')
-      .paginate(page, perPage)
 
+
+      const allowedOrders = ['createdAt', 'id', 'title']
+
+      if (allowedOrders.includes(orderBy)){
+        query.orderBy(orderBy, orderSort)
+      }
+
+      const news = await query.paginate(page, perPage)
     return response.ok({
       status: 200,
       message: 'News paginated successfully',
