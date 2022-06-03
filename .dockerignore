@@ -1,4 +1,20 @@
-node_modules
-.vscode
-.git
 upload
+# Adonis default .gitignore ignores
+node_modules
+build
+coverage
+.vscode
+.DS_STORE
+.env
+tmp
+
+# Additional .gitignore ignores (any custom file you wish)
+.idea
+
+# Additional good to have ignores for dockerignore
+Dockerfile*
+docker-compose*
+.dockerignore
+*.md
+.git
+.gitignore
