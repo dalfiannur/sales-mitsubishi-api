@@ -44,7 +44,7 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: ['mitsubishi-jakartapusat.com'],
+  origin: true,
 
   /*
   |--------------------------------------------------------------------------
